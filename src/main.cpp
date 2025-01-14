@@ -52,4 +52,14 @@ void disabled() {}
 
 void autonomous() {}
 
-void opcontrol() {}
+pros::Controller controller(pros::E_CONTROLLER_MASTER);
+void opcontrol() {
+    while (true){
+        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
+        chassis.arcade(leftY, rightX);
+
+        pros::delay(25);
+    }
+}
