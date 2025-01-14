@@ -219,6 +219,7 @@ void TrackingWheelOdometry::update(Time period) {
         // with no delay in between
         if (deltaTime > period) prevTime = now;
         uint32_t dummyPrevTime = to_msec(prevTime);
+        // update time to hold before running the Task
         pros::Task::delay_until(&dummyPrevTime, to_msec(period));
         prevTime = from_msec(dummyPrevTime);
     }
