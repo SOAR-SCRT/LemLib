@@ -55,6 +55,7 @@ void autonomous() {}
 
 void opcontrol() {
     
+    pros::Controller controller(pros::E_CONTROLLER_MASTER);
     while (true){
         // tank drive
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
