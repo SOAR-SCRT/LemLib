@@ -38,7 +38,7 @@ void initialize() {
             pros::delay(10);
         }
     });
-    
+
     lemlib::turnToHeading(90_cDeg, 100_sec, {.slew = 1},
                           {
                               .angularPID = pid,
@@ -54,15 +54,7 @@ void disabled() {}
 void autonomous() {}
 
 void opcontrol() {
-
-    lemlib::Chassis chassis(drivetrain,
-                            lateral_controller,
-                            angular_controller,
-                            sensors,
-                            &throttle_curve, 
-                            &steer_curve
-    );
-
+    
     while (true){
         // tank drive
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
