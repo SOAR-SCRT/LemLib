@@ -23,9 +23,9 @@ lemlib::ExitCondition<AngleRange> exitCondition(1_stDeg, 2_sec);
 
 void initialize() {
     terminal.setLoggingLevel(logger::Level::DEBUG);
-    pros::lcd::initialize();
+    pros::lcd::initialize(); // init brain screen
 
-    imu.calibrate();
+    chassis.calibrate(); // init sensors
     pros::delay(3200);
     odom.startTask();
     pros::delay(100);
@@ -38,6 +38,7 @@ void initialize() {
             pros::delay(10);
         }
     });
+    
     lemlib::turnToHeading(90_cDeg, 100_sec, {.slew = 1},
                           {
                               .angularPID = pid,
@@ -52,4 +53,24 @@ void disabled() {}
 
 void autonomous() {}
 
-void opcontrol() {}
+void opcontrol() {
+
+    lemlib::Chassis chassis(drivetrain,
+                            lateral_controller,
+                            angular_controller,
+                            sensors,
+                            &throttle_curve, 
+                            &steer_curve
+    );
+
+    while (true){
+        // tank drive
+        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+        int rightY = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+
+        chassis.tank(leftY, rightY); // need to check what the heck is a tank 
+
+        pros::delay(20);
+    }    
+}
+
